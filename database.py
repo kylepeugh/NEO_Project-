@@ -13,6 +13,7 @@ You'll edit this file in Tasks 2 and 3.
 """
 from extract import load_neos, load_approaches
 
+
 class NEODatabase:
     """A database of near-Earth objects and their close approaches.
 
@@ -58,21 +59,6 @@ class NEODatabase:
             approach.neo = neo
             neo.approaches.append(approach)
 
-
-
-
-        # TODO: What additional auxiliary data structures will be useful?
-
-        # TODO: Link. together the NEOs and their close approaches.
-
-        # for approach in self.approaches:
-         #   if approach._designation in self._neosbydesignationdict.keys():
-         #       self._neosbydesignationdict[approach._designation] = approach.neo
-          #      self._neosbydesignationdict[approach._designation]
-           #     approaches.append(approach)
-
-
-
     def get_neo_by_designation(self, designation):
 
         """Find and return an NEO by its primary designation.
@@ -87,10 +73,9 @@ class NEODatabase:
         :param designation: The primary designation of the NEO to search for.
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
-        # TODO: Fetch an NEO by its primary designation.
         if designation in self._neosbydesignationdict.keys():
             return self._neosbydesignationdict[designation]
-        
+
         return None
 
     def get_neo_by_name(self, name):
@@ -107,10 +92,9 @@ class NEODatabase:
         :param name: The name, as a string, of the NEO to search for.
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
-        # TODO: Fetch an NEO by its name.
         if name in self._neosbynamedict.keys():
             return self._neosbynamedict[name]
-    
+
         return None
 
     def query(self, filters=()):
@@ -127,8 +111,7 @@ class NEODatabase:
         :param filters: A collection of filters capturing user-specified criteria.
         :return: A stream of matching `CloseApproach` objects.
         """
-        # TODO: Generate `CloseApproach` objects that match all of the filters.
-        
+
         for approach in self.approaches:
             flag = True
             for filter in filters:

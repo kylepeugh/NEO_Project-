@@ -70,35 +70,40 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
-        return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
-    
+        return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, " \
+               f"value={self.value})"
+
+
 class Date_filter(AttributeFilter):
     @classmethod
     def get(cls, approach):
         return approach.time.date()
 
+
 class Distance_filter(AttributeFilter):
     @classmethod
     def get(cls, approach):
         return approach.distance
-    
+
+
 class Velocity_filter(AttributeFilter):
     @classmethod
     def get(cls, approach):
         return approach.velocity
-    
+
+
 class Diameter_filter(AttributeFilter):
     @classmethod
     def get(cls, approach):
         return approach.neo.diameter
-    
-class Hazardous_filter(AttributeError):
+
+
+class Hazardous_filter(AttributeFilter):
     @classmethod
     def get(cls, approach):
         return approach.neo.hazardous
-    
 
-    
+
 def create_filters(
         date=None, start_date=None, end_date=None,
         distance_min=None, distance_max=None,
@@ -135,7 +140,7 @@ def create_filters(
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-    # TODO: Decide how you will represent your filters.
+
     filter_list = []
 
     if date is not None:
@@ -159,7 +164,6 @@ def create_filters(
     if hazardous is not None:
         filter_list.append(Hazardous_filter(operator.eq, hazardous))
 
-
     return filter_list
 
 
@@ -172,9 +176,8 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-    # TODO: Produce at most `n` values from the given iterator.
+
     if n is not None and n != 0:
         return itertools.islice(iterator, n)
     else:
         return iterator
-

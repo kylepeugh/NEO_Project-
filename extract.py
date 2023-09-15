@@ -24,31 +24,24 @@ def load_neos(neos_csv):
     with open(neos_csv, 'r') as infile1:
         reader1 = csv.DictReader(infile1)
         for row in reader1:
-            neo = NearEarthObject(name=row['name'], designation=row['pdes'], diameter=(row['diameter']), hazardous=row['pha']) 
+            neo = NearEarthObject(name=row['name'],
+                                  designation=row['pdes'],
+                                  diameter=(row['diameter']),
+                                  hazardous=row['pha'])
             neoinfo.append(neo)
-    
+
     return neoinfo
-
-    
-
-
-
-
-
-
 
     """Read near-Earth object information from a CSV file.
 
     :param neo_csv_path: A path to a CSV file containing data about near-Earth objects.
     :return: A collection of `NearEarthObject`s.
     """
-    # TODO: Load NEO data from the given CSV file.
-    return ()
 
 
 def load_approaches(cad_json):
     approachinfo = []
-    with open(cad_json,'r') as infile2:
+    with open(cad_json, 'r') as infile2:
         reader2 = json.load(infile2)
     for item in reader2['data']:
         item = dict(zip(reader2['fields'], item))
