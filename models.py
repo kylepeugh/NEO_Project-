@@ -21,8 +21,7 @@ from helpers import cd_to_datetime, datetime_to_str
 
 
 class NearEarthObject:
-
-    """A near-Earth object (NEO)
+    """A near-Earth object (NEO).
 
     An NEO encapsulates semantic and physical parameters about the object, such
     as its primary designation (required, unique), IAU name (optional), diameter
@@ -40,7 +39,6 @@ class NearEarthObject:
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-
         self.designation = designation
         self.name = name
         if self.name == '':
@@ -69,7 +67,6 @@ class NearEarthObject:
 
     def __str__(self):
         """Return `str(self)`."""
-
         return f"NEO {self.fullname} has a diameter of " \
                f"{self.diameter:.3f} km " \
                f"and {'is' if self.hazardous else 'is not'} " \
@@ -83,10 +80,25 @@ class NearEarthObject:
 
 
 class CloseApproach:
+    """A close approach to Earth by an NEO.
+
+    A `CloseApproach` encapsulates information about the NEO's close approach to
+    Earth, such as the date and time (in UTC) of closest approach, the nominal
+    approach distance in astronomical units, and the relative approach velocity
+    in kilometers per second.
+
+    A `CloseApproach` also maintains a reference to its `NearEarthObject` -
+    initally, this information (the NEO's primary designation) is saved in a
+    private attribute, but the referenced NEO is eventually replaced in the
+    `NEODatabase` constructor.
+    """
 
     def __init__(self, _designation, time,
                  distance=float('nan'), velocity=float('nan')):
+        """Create a new `CloseApproach`.
 
+        :param info: A dictionary of excess keyword arguments supplied to the constructor.
+        """
         self._designation = _designation
         self.time = cd_to_datetime(time)
         self.distance = distance
@@ -103,7 +115,17 @@ class CloseApproach:
 
     @property
     def time_str(self):
+        """Return a formatted representation of this `CloseApproach`'s approach time.
 
+        The value in `self.time` should be a Python `datetime` object. While a
+        `datetime` object has a string representation, the default representation
+        includes seconds - significant figures that don't exist in our input
+        data set.
+
+        The `datetime_to_str` method converts a `datetime` object to a
+        formatted string that can be used in human-readable representations and
+        in serialization to CSV and JSON files.
+        """
         return datetime_to_str(self.time)
 
     def __str__(self):

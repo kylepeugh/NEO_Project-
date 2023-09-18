@@ -39,6 +39,7 @@ class AttributeFilter:
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
     """
+
     def __init__(self, op, value):
         """Construct a new `AttributeFilter` from an binary predicate and a reference value.
 
@@ -70,37 +71,53 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
+        """Return  "repr(self)", a computer readable string of the object."""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, " \
                f"value={self.value})"
 
 
 class Date_filter(AttributeFilter):
+    """Subclass to filter close approach objects by the date."""
+
     @classmethod
     def get(cls, approach):
+        """Return the date/time of the close approach object."""
         return approach.time.date()
 
 
 class Distance_filter(AttributeFilter):
+    """Subclass to filter cloase approach by disntace."""
+
     @classmethod
     def get(cls, approach):
+        """Return the distance of the cloase approach object."""
         return approach.distance
 
 
 class Velocity_filter(AttributeFilter):
+    """Subclass to filter close approach objects by the velocity."""
+
     @classmethod
     def get(cls, approach):
+        """Return the velocity of the close approach object."""
         return approach.velocity
 
 
 class Diameter_filter(AttributeFilter):
+    """Subclass to filter close approach objects by the diameter."""
+
     @classmethod
     def get(cls, approach):
+        """Return the diameter of the close approach object."""
         return approach.neo.diameter
 
 
 class Hazardous_filter(AttributeFilter):
+    """Subclass to filter close approach objects by whether its hazradous."""
+
     @classmethod
     def get(cls, approach):
+        """Return the hazardous attribute of the close approach object."""
         return approach.neo.hazardous
 
 
@@ -140,27 +157,35 @@ def create_filters(
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-
     filter_list = []
 
     if date is not None:
         filter_list.append(Date_filter(operator.eq, date))
+
     if start_date is not None:
         filter_list.append(Date_filter(operator.ge, start_date))
+
     if end_date is not None:
         filter_list.append(Date_filter(operator.le, end_date))
+
     if distance_min is not None:
         filter_list.append(Distance_filter(operator.ge, distance_min))
+
     if distance_max is not None:
         filter_list.append(Distance_filter(operator.le, distance_max))
+
     if velocity_min is not None:
         filter_list.append(Velocity_filter(operator.ge, velocity_min))
+
     if velocity_max is not None:
         filter_list.append(Velocity_filter(operator.le, velocity_max))
+
     if diameter_min is not None:
         filter_list.append(Diameter_filter(operator.ge, diameter_min))
+
     if diameter_max is not None:
         filter_list.append(Diameter_filter(operator.le, diameter_max))
+
     if hazardous is not None:
         filter_list.append(Hazardous_filter(operator.eq, hazardous))
 
@@ -176,7 +201,6 @@ def limit(iterator, n=None):
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-
     if n is not None and n != 0:
         return itertools.islice(iterator, n)
     else:

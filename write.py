@@ -56,11 +56,10 @@ def write_to_json(results, filename):
     :param results: An iterable of `CloseApproach` objects.
     :param filename: A Path-like object pointing to where the data should be saved.
     """
-
     LastList = []
     for item in results:
 
-        obj_dict = {"datetime_utc": item.time_str,
+        item_dict = {"datetime_utc": item.time_str,
                     "distance_au": item.distance,
                     "velocity_km_s": item.velocity,
                     "neo": {
@@ -71,6 +70,6 @@ def write_to_json(results, filename):
                             "diameter_km": item.neo.diameter,
                             "potentially_hazardous": item.neo.hazardous}}
 
-        LastList.append(obj_dict)
+        LastList.append(item_dict)
     with open(filename, 'w') as outfile:
         json.dump(LastList, outfile, indent=4)

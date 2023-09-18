@@ -19,6 +19,11 @@ from models import NearEarthObject, CloseApproach
 
 
 def load_neos(neos_csv):
+    """Read near-Earth object information from a CSV file.
+
+    :param neo_csv_path: A path to a CSV file containing data about near-Earth objects.
+    :return: A collection of `NearEarthObject`s.
+    """
     neoinfo = []
 
     with open(neos_csv, 'r') as infile1:
@@ -40,6 +45,11 @@ def load_neos(neos_csv):
 
 
 def load_approaches(cad_json):
+    """Read close approach data from JSON file.
+    
+    :param neo_csv_path: A path to a JOSN file containing data about close approaches.
+    :return a collection of 'Close Approach'es.
+    """
     approachinfo = []
     with open(cad_json, 'r') as infile2:
         reader2 = json.load(infile2)
